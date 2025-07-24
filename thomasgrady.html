@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>With the Candlestick Mysteries</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body, html {
+      height: 100%;
+      font-family: Georgia, sans-serif;
+      position: relative;
+    }
+    
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('assets/tgrady.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .banner {
+      width: 100%;
+      background-color: #222;
+      color: white;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      text-align: center;
+      font-size: 18px;
+      height: 50px;
+    }
+    
+    .container {
+      display: flex;
+      min-height: 100vh;
+      padding-top: 50px;
+    }
+    
+    .sidebar {
+      width: 280px;
+      background-color: #111;
+      color: white;
+      padding: 10px;
+      overflow-y: auto;
+      position: fixed;
+      top: 50px;
+      left: 0;
+      bottom: 0;
+      z-index: 999;
+    }
+    
+    .counter {
+      font-size: 20px;
+      color: rgb(255, 255, 255);
+      margin-bottom: 20px;
+      text-underline-offset: 2px;
+      background-color: #8B0000;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      border: 2px solid #c7c7c7;
+    }
+    
+    .link-list a {
+      display: block;
+      padding: 10px;
+      color: white;
+      text-decoration: none;
+      border-bottom: 1px solid #444;
+      white-space: nowrap;
+    }
+    
+    .link-list a:hover {
+      background-color: #333;
+    }
+    
+    .category {
+      padding: 10px;
+      background-color: #e9b60ece;
+      color: #000000;
+      font-weight: bold;
+      border-bottom: 3px solid #d1a000;
+      margin-top: 10px;
+      text-shadow: 0 0 3px rgb(85, 85, 85);
+    }
+    
+    .main {
+      margin-left: 280px;
+      flex-grow: 1;
+      padding: 20px;
+      position: relative;
+      min-height: calc(100vh - 50px);
+    }
+    
+    .title {
+      font-size: 100px;
+      color: rgb(255, 166, 0);
+      text-shadow: 0 0 10px rgb(0, 0, 0);
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .body-text {
+      font-size: 23px;
+      color: white;
+      text-shadow: 0 0 5px black;
+    }
+    
+    .text-box {
+      background-color: rgba(209, 209, 209, 0.925);
+      color: rgb(0, 0, 0);
+      padding: 20px;
+      overflow-y: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+      max-height: calc(100vh - 250px);
+    }
+
+    .bottom-image {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .bottom-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    .link-list a.visited {
+      background-color: #888888;
+      color: #000000;
+      text-decoration: solid;
+    }
+
+    .link-list a.special {
+      background-color: #002382;
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow: 0 0 3px black;
+    }
+
+    .link-list a.special1 {
+      background-color: #09008a;
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow: 0 0 3px black;
+    }
+
+    /* Mobile menu toggle button */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 60px;
+      left: 10px;
+      z-index: 1001;
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      
+      .sidebar {
+        width: 250px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1002;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main {
+        margin-left: 0;
+        padding: 10px;
+      }
+      
+      .title {
+        font-size: 40px;
+        margin-top: 50px;
+      }
+      
+      .text-box {
+        max-height: none;
+        margin-top: 10px;
+        padding: 15px;
+        font-size: 16px;
+      }
+      
+      .banner {
+        font-size: 16px;
+      }
+    }
+    
+    /* Small mobile styles */
+    @media (max-width: 480px) {
+      .title {
+        font-size: 30px;
+      }
+      
+      .text-box {
+        font-size: 14px;
+        padding: 10px;
+      }
+      
+      .sidebar {
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">Case 1: Where's Wesley</div>
+  <button class="menu-toggle" id="menuToggle">☰ Menu</button>
+  
+  <div class="container">
+    <div class="sidebar" id="sidebar">
+      <div class="counter">Investigative Hours: <span id="counter">0</span></div>
+      <div class="link-list" id="linkList"></div>
+    </div>
+    
+    <div class="main" id="main">
+      <div class="title" id="title">Thomas Grady</div>
+      <div class="text-box">
+<p><span style="font-weight: 400;">&ldquo;Ah, Detective Dent, you&rsquo;ve been causing quite a stir around here. I can&rsquo;t say it&rsquo;s any great pleasure to see you again. I would have hoped the list I made you would be all the help a professional like yourself would require to solve this case.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;My apologies, Mr. Grady. This shouldn&rsquo;t take long. I just have a few more questions for you.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">His eyes were locked on my shoes, contempt gathering on the corners of his lips. &ldquo;Very well, Detective.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Does Mr. Range have a habit of disappearing like he has today?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;No, sir. He is a busy man who would never leave his work like this. Despite his sickness, his head has been full of dizzying ideas lately; I can hardly keep up with him.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;What do you mean?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Well, this gathering was of course conceived at his request. I know nothing of the details, but he was very selective about who received the invitations. For the past few months, he&rsquo;s been holed up in his room doing god-knows-what, sir.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;I see, and where is Mr. Range&rsquo;s bedroom?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">His eyes narrowed. &ldquo;Second floor. Turn left, and it&rsquo;s at the end of the south wing. </span><strong>(9 - P)</strong><span style="font-weight: 400;">&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Thank you.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Should you decide to visit, see that you mind your step when entering, Detective.&rdquo;&nbsp;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">I thought I saw a little smirk form at the corner of his lips, but I moved on.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;I will. And, Mr. Grady, where were you during dinner service this evening?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Butlers are in charge of the kitchen and dining room, Detective. Where do you think I was? I would </span><em><span style="font-weight: 400;">never</span></em><span style="font-weight: 400;"> neglect my duties.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;My apologies; I did not mean to offend. But, tell me: was tonight's dinner service unusual in any way?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Not at all. The first course was served at 7 on the dot, just as Wesley requires.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Was the entire staff&ndash; yourself, Miss Flora, and Mrs. Lawrence&ndash; present?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Yes.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Did you see any staff or guests leave during the meal or just before?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">He paused for a moment, looked me in the eyes, and then said, &ldquo;Yes. At one point before serving, Miss Flora said she was feeling ill and needed some fresh air. I gave her permission, seeing as the meal was nearly prepared.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;How long was she gone?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;I couldn&rsquo;t say. Serving guests and managing staff is not as easy as you might assume, Detective. She was back to assist with clearing the first course&ndash; I know that for certain.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;You might be in the best position to tell me this, Mr. Grady: what were the eating habits of the guests tonight? Who consumed which dishes?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Only three guests were present during dinner service: Mrs. Wells, Miss Barton, and Mr. Dawson. Unsurprisingly, Miss Barton skipped the salad--after making a big show of it--but Mrs. Wells and Mr. Dawson both complimented the summer greens we&rsquo;d sourced locally.&nbsp;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">The second course was pea soup. Mrs. Wells and Miss Barton requested an additional portion later in the meal, only after Miss Barton berated myself and the cook about the seasoning in the pea soup. Thankfully, Mr. Dawson cleaned his bowl without comment.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">Mr. Grady rolled his eyes, and continued:&nbsp;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;We were strained and behind schedule at this point, but Baked Cod was then served for the main course&ndash; dinner rolls on the side. With all of Miss Barton's complaints, service was already a catastrophe, so imagine my fury when that awful Fred Wells came barging in to make matters worse. He pranced his way to me and demanded a plate heaped with Cod and dinner rolls. And, can you believe it, Detective? He grabbed the plate I made for him and left with the food in hand! In all my years&hellip;.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">I cut in before his tirade could reach its full momentum.&nbsp; &ldquo;Hmm, yes, that is very strange. Was it Mr. Wells&rsquo; habit to eat separately?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;No! He&rsquo;s been present for the other meals. But I will say it certainly </span><em><span style="font-weight: 400;">was</span></em><span style="font-weight: 400;"> his habit to be </span><em><span style="font-weight: 400;">rude</span></em><span style="font-weight: 400;">.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Very good, Mr. Grady. You&rsquo;ve been a great help. And, oh, I have one more thing&hellip; Where do you reside in the house?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Mr. Range has recently moved me from the servants&rsquo; wing and into the second floor Winter Suite </span><strong>(7 - P)</strong><span style="font-weight: 400;">. I have made that my home.&rdquo;&nbsp;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;I might wish to look around your residence at some point. Is that okay?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Oh, well, I can&rsquo;t say that&rsquo;s any surprise coming from a man of such poor manners as yourself.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">He thrust open his jacket and pulled from his left pocket a single brass key. Tossing it to me, disgust dripping from his voice, he said, &ldquo;See that you don&rsquo;t make a mess of the place, Detective.&rdquo;</span></p>
+<p><br /><br /><br /></p>
+<p><span style="font-weight: 400;">(At any time, you may spend an Investigative Hour to search </span><strong>Thomas Grady&rsquo;s Room</strong> <strong>(7 - P), </strong><span style="font-weight: 400;">or </span><strong>The Master Bedroom (Wesley Range) (9 -P).</strong><span style="font-weight: 400;">)</span></p>
+
+      <!-- </div>
+      <div class="bottom-image">
+        <img src="assets/IntroNote.jpg" alt="Evidence image">
+      </div> -->
+    </div>
+  </div>
+
+   <script>
+    const pages = [
+      { type: 'link', filename: 'notes.html', title: 'Notes', counted: false},
+      { type: 'link', filename: 'rules.html', title: 'Rules', counted: false},
+      { type: 'link', filename: 'intro.html', title: 'Introduction', counted: false},
+      { type: 'category', title: 'People' },
+      { type: 'link', filename: 'fredwells.html', title: 'Fred Wells' },
+      { type: 'link', filename: 'angiewells.html', title: 'Angie Wells' },
+      { type: 'link', filename: 'daledawson.html', title: 'Dale Dawson' },
+      { type: 'link', filename: 'allenflanders.html', title: 'Allen Flanders' },
+      { type: 'link', filename: 'marlabarton.html', title: 'Marla Barton' },
+      { type: 'link', filename: 'missflora.html', title: 'Miss Flora - Housekeeper' },
+      { type: 'link', filename: 'mrslawrence.html', title: 'Mrs. Lawrence - Cook' },
+      { type: 'link', filename: 'thomasgrady.html', title: 'Thomas Grady - Butler' },
+      { type: 'category', title: 'First Floor' },
+      { type: 'link', filename: 'mainentry.html', title: 'Main Entry' },
+      { type: 'link', filename: 'billiardroom.html', title: 'Billiard Room'},
+      { type: 'link', filename: 'kitchen.html', title: 'Kitchen', counted: false },
+      { type: 'link', filename: 'gardensuite.html', title: 'Garden Suite' },
+      { type: 'link', filename: 'thegarden.html', title: 'The Garden' },
+      { type: 'link', filename: '12c.html', title: '12 - C' },
+      { type: 'link', filename: '9a.html', title: '9 - A' },
+      { type: 'link', filename: '3p.html', title: '3 - P', counted: false },
+      { type: 'link', filename: '4p.html', title: '4 - P' },
+      { type: 'category', title: 'Second Floor' },
+      { type: 'link', filename: 'birdroom.html', title: 'Bird Room' },
+      { type: 'link', filename: 'warroom.html', title: 'War Room' },
+      { type: 'link', filename: 'ivorysuite.html', title: 'Ivory Suite' },
+      { type: 'link', filename: '9p.html', title: '9 - P' },
+      { type: 'link', filename: '7p.html', title: '7 - P' },
+      { type: 'link', filename: '4a.html', title: '4 - A' },
+      { type: 'link', filename: '10b.html', title: '10 - B' },
+      { type: 'link', filename: '11a.html', title: '11 - A' },
+      { type: 'category', title: 'Items' },
+      { type: 'link', filename: 'pre1.html', title: 'PrE - 1', counted: false },
+      { type: 'link', filename: 'exam.html', title: 'Exam', special: true, counted: false },
+      { type: 'link', filename: 'whodunit.html', title: 'Whodunit', special1: true, counted: false },
+    ];
+
+    const linkList = document.getElementById("linkList");
+    const counter = document.getElementById("counter");
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebar = document.getElementById("sidebar");
+    
+    // Debug elements
+    const debugVisited = document.getElementById("debugVisited");
+    const debugCounted = document.getElementById("debugCounted");
+    const debugRemaining = document.getElementById("debugRemaining");
+
+    // Initialize visited pages from localStorage - ensure it's always an array
+    let visited = new Set();
+    try {
+      const stored = localStorage.getItem("visitedPages");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          visited = new Set(parsed);
+        }
+      }
+    } catch (e) {
+      console.error("Error loading visited pages:", e);
+      localStorage.removeItem("visitedPages"); // Clear corrupted data
+    }
+
+    function updateCounter() {
+      // Count only pages that should be counted towards the hour limit
+      const countedVisitedPages = [...visited].filter(filename => {
+        const page = pages.find(p => p.filename === filename);
+        return page && page.counted !== false;
+      });
+      
+      const visitedCount = countedVisitedPages.length;
+      const remainingHours = Math.max(0, 11 - visitedCount);
+      
+      // Update counter display
+      counter.textContent = remainingHours;
+      
+      // Update debug info
+      // debugVisited.textContent = visited.size;
+      // debugCounted.textContent = visitedCount;
+      // debugRemaining.textContent = remainingHours;
+      
+      // Visual warning when getting low
+      const counterElement = counter.parentElement;
+      if (remainingHours <= 3) {
+        counterElement.style.backgroundColor = '#ff0000';
+      } else if (remainingHours <= 6) {
+        counterElement.style.backgroundColor = '#ff4500';
+      } else {
+        counterElement.style.backgroundColor = '#8B0000';
+      }
+      
+      console.log(`Counter updated: ${visitedCount} counted visits, ${remainingHours} hours remaining`);
+    }
+
+    function saveVisitedPages() {
+      try {
+        localStorage.setItem("visitedPages", JSON.stringify([...visited]));
+      } catch (e) {
+        console.error("Error saving visited pages:", e);
+      }
+    }
+
+    function renderLinks() {
+      linkList.innerHTML = ''; // Clear existing links
+      
+      pages.forEach(item => {
+        if (item.type === 'category') {
+          const div = document.createElement("div");
+          div.className = 'category';
+          div.textContent = item.title;
+          linkList.appendChild(div);
+        } else if (item.type === 'link') {
+          const a = document.createElement("a");
+          a.href = item.filename;
+          a.textContent = item.title;
+
+          // Apply styles based on visited status and special properties
+          if (visited.has(item.filename)) {
+            a.classList.add("visited");
+          }
+          if (item.special) {
+            a.classList.add("special");
+          }
+          if (item.special1) {
+            a.classList.add("special1");
+          }
+
+          // Handle click events
+          a.onclick = (e) => {
+            console.log(`Clicked: ${item.filename}, was visited: ${visited.has(item.filename)}, counted: ${item.counted !== false}`);
+            
+            // Only add to visited if not already visited
+            if (!visited.has(item.filename)) {
+              visited.add(item.filename);
+              saveVisitedPages();
+              updateCounter();
+              console.log(`Added ${item.filename} to visited pages`);
+            } else {
+              console.log(`${item.filename} already visited`);
+            }
+            
+            // Close sidebar on mobile after clicking
+            if (window.innerWidth <= 768) {
+              sidebar.classList.remove('open');
+            }
+            
+            // Allow normal navigation to proceed
+          };
+
+          linkList.appendChild(a);
+        }
+      });
+    }
+
+    // Initialize everything
+    updateCounter();
+    renderLinks();
+
+    // Mobile menu toggle
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && 
+          !sidebar.contains(e.target) && 
+          !menuToggle.contains(e.target) && 
+          sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+
+    // Handle resize events
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        sidebar.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>

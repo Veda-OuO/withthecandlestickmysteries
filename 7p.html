@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>With the Candlestick Mysteries</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body, html {
+      height: 100%;
+      font-family: Georgia, sans-serif;
+      position: relative;
+    }
+    
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('assets/wintersuite.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .banner {
+      width: 100%;
+      background-color: #222;
+      color: white;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      text-align: center;
+      font-size: 18px;
+      height: 50px;
+    }
+    
+    .container {
+      display: flex;
+      min-height: 100vh;
+      padding-top: 50px;
+    }
+    
+    .sidebar {
+      width: 280px;
+      background-color: #111;
+      color: white;
+      padding: 10px;
+      overflow-y: auto;
+      position: fixed;
+      top: 50px;
+      left: 0;
+      bottom: 0;
+      z-index: 999;
+    }
+    
+    .counter {
+      font-size: 20px;
+      color: rgb(255, 255, 255);
+      margin-bottom: 20px;
+      text-underline-offset: 2px;
+      background-color: #8B0000;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      border: 2px solid #ff6b6b;
+    }
+    
+    .link-list a {
+      display: block;
+      padding: 10px;
+      color: white;
+      text-decoration: none;
+      border-bottom: 1px solid #444;
+      white-space: nowrap;
+    }
+    
+    .link-list a:hover {
+      background-color: #333;
+    }
+    
+    .category {
+      padding: 10px;
+      background-color: #e9b60ece;
+      color: #000000;
+      font-weight: bold;
+      border-bottom: 3px solid #d1a000;
+      margin-top: 10px;
+      text-shadow: 0 0 3px rgb(85, 85, 85);
+    }
+    
+    .main {
+      margin-left: 280px;
+      flex-grow: 1;
+      padding: 20px;
+      position: relative;
+      min-height: calc(100vh - 50px);
+    }
+    
+    .title {
+      font-size: 100px;
+      color: rgb(255, 166, 0);
+      text-shadow: 0 0 10px rgb(0, 0, 0);
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .body-text {
+      font-size: 23px;
+      color: white;
+      text-shadow: 0 0 5px black;
+    }
+    
+    .text-box {
+      background-color: rgba(209, 209, 209, 0.925);
+      color: rgb(0, 0, 0);
+      padding: 20px;
+      overflow-y: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+      max-height: calc(100vh - 250px);
+    }
+
+    .secondary-text-box {
+      margin-top: 20px;
+      max-height: 300px;
+    }
+
+    .bottom-image {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .bottom-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    .link-list a.visited {
+      background-color: #888888;
+      color: #000000;
+      text-decoration: solid;
+    }
+
+    .link-list a.special {
+      background-color: #002382;
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow: 0 0 3px black;
+    }
+
+    .link-list a.special1 {
+      background-color: #09008a;
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow: 0 0 3px black;
+    }
+
+    /* Mobile menu toggle button */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 60px;
+      left: 10px;
+      z-index: 1001;
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      
+      .sidebar {
+        width: 250px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1002;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main {
+        margin-left: 0;
+        padding: 10px;
+      }
+      
+      .title {
+        font-size: 40px;
+        margin-top: 50px;
+      }
+      
+      .text-box {
+        max-height: none;
+        margin-top: 10px;
+        padding: 15px;
+        font-size: 16px;
+      }
+      
+      .banner {
+        font-size: 16px;
+      }
+    }
+    
+    /* Small mobile styles */
+    @media (max-width: 480px) {
+      .title {
+        font-size: 30px;
+      }
+      
+      .text-box {
+        font-size: 14px;
+        padding: 10px;
+      }
+      
+      .sidebar {
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">Case 1: Where's Wesley</div>
+  <button class="menu-toggle" id="menuToggle">☰ Menu</button>
+  
+  <div class="container">
+    <div class="sidebar" id="sidebar">
+      <div class="counter">Investigative Hours: <span id="counter">0</span></div>
+      <div class="link-list" id="linkList"></div>
+    </div>
+    
+    <div class="main" id="main">
+      <div class="title" id="title">Winter Suite</div>
+      <div class="text-box">
+      <p><span style="font-weight: 400;">The Winter Suite shared a wing with the master bedroom </span><strong>(9 - P)</strong><span style="font-weight: 400;">. I used Mr. Grady&rsquo;s key and let myself in.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">It was well-furnished. The carpet was snow white and so carefully maintained that I worried the dusty soles of my sneakers would mark my presence. His bed was made, and nothing beyond a small collection of snowglobes and potted plants occupied the surfaces of the forest green furniture.&nbsp;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">I was sifting through the slender writing desk when a knock came at the door.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Ah, I see I was correct about your manners, Detective.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;I&rsquo;m just doing my job, Mr. Grady.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;I understand, but, surely, you must know I have nothing to hide.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">I had just rounded the corner of his bed, to the side nearest the window, when I saw it: on the floor, and in 100 pieces, the remains of the large snowglobe were scattered and lying in a grey pool of water. The intricate brass base was intact, but whatever decor had been inside the globe was gone.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">Still looking at the shattered glass, I said, &ldquo;Oh, then what is the meaning of this, Mr. Grady?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">He gave me a suspicious look and came to stand next to me&ndash; stopping suddenly in his tracks when he saw it.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">At once, he was red.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;What have you done, Detective!? I will NOT stand for your antics any longer!&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">He fell to his knees, collecting the broken bits in his hands.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;I assure you, I had no time to dash your decorations to pieces, Mr. Grady&ndash; nor the inclination.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;</span><em><span style="font-weight: 400;">My</span></em><span style="font-weight: 400;"> decorations?!&rdquo; he shouted. &ldquo;This was Master Range&rsquo;s most prized snow globe. He had it specially commissioned! &hellip;&hellip;Oh my god!!&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Did you drop it by mistake?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">Turning from his efforts, he looked at me with daggers for eyes.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;ABSOLUTELY NOT!! The entire reason I was moved to this room was to watch over Mr. Range and his possessions. I would never betray his trust!&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;He asked you to guard his snowglobes?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;No! This one was of specific interest to him. He was worried some of the guests might get nosey and asked me to hide it. So, not having a better idea, I put it under the bed&ndash; behind that post, there.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&nbsp;&ldquo;What was so special about this globe?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">Continuing to collect as many of the pieces as he could, a distraught Mr. Grady said, &ldquo;He...did not elaborate; and, being a professional in his employ, I did not ask.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;When were you last here, Mr. Grady?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;After the meeting; I briefly dozed on the bed before starting preparations for dinner at 4:30, as is my habit.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;And it was in one piece when you left?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Yes. There is not a doubt about it. I checked myself.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Did the globe have some sort of special theming?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Yes,&rdquo; he paused, unsure if he should continue, but then said, &ldquo;you can see the base is fashioned into a dragon, Detective. That is Ladon, a legendary beast slain by Hercules, himself. It is the Master&rsquo;s favorite story. The dragon was said to have guarded golden apples. What was once inside this globe was exactly that: an apple made of pure gold.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Who would know to look for such a thing?&rdquo;</span><span style="font-weight: 400;"><br /></span><span style="font-weight: 400;"><br /></span><span style="font-weight: 400;">&ldquo;I don&rsquo;t know! But I did not say a word about, if that&rsquo;s what you&rsquo;re implying. Will that be all, Detective?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Yes. Thank you for your help, Mr. Grady.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Get out.&rdquo;</span></p>
+<p>&nbsp;</p>
+
+
+      </div>
+
+
+      <!-- <div class="bottom-image">
+        <img src="assets/IntroNote.jpg" alt="Evidence image">
+      </div> -->
+
+
+
+      <!-- <div class="text-box secondary-text-box">
+       
+      </div> -->
+
+      
+    </div>
+  </div>
+
+  <script>
+    const pages = [
+      { type: 'link', filename: 'notes.html', title: 'Notes', counted: false},
+      { type: 'link', filename: 'rules.html', title: 'Rules', counted: false},
+      { type: 'link', filename: 'intro.html', title: 'Introduction', counted: false},
+      { type: 'category', title: 'People' },
+      { type: 'link', filename: 'fredwells.html', title: 'Fred Wells' },
+      { type: 'link', filename: 'angiewells.html', title: 'Angie Wells' },
+      { type: 'link', filename: 'daledawson.html', title: 'Dale Dawson' },
+      { type: 'link', filename: 'allenflanders.html', title: 'Allen Flanders' },
+      { type: 'link', filename: 'marlabarton.html', title: 'Marla Barton' },
+      { type: 'link', filename: 'missflora.html', title: 'Miss Flora - Housekeeper' },
+      { type: 'link', filename: 'mrslawrence.html', title: 'Mrs. Lawrence - Cook' },
+      { type: 'link', filename: 'thomasgrady.html', title: 'Thomas Grady - Butler' },
+      { type: 'category', title: 'First Floor' },
+      { type: 'link', filename: 'mainentry.html', title: 'Main Entry' },
+      { type: 'link', filename: 'billiardroom.html', title: 'Billiard Room'},
+      { type: 'link', filename: 'kitchen.html', title: 'Kitchen', counted: false },
+      { type: 'link', filename: 'gardensuite.html', title: 'Garden Suite' },
+      { type: 'link', filename: 'thegarden.html', title: 'The Garden' },
+      { type: 'link', filename: '12c.html', title: '12 - C' },
+      { type: 'link', filename: '9a.html', title: '9 - A' },
+      { type: 'link', filename: '3p.html', title: '3 - P', counted: false },
+      { type: 'link', filename: '4p.html', title: '4 - P' },
+      { type: 'category', title: 'Second Floor' },
+      { type: 'link', filename: 'birdroom.html', title: 'Bird Room' },
+      { type: 'link', filename: 'warroom.html', title: 'War Room' },
+      { type: 'link', filename: 'ivorysuite.html', title: 'Ivory Suite' },
+      { type: 'link', filename: '9p.html', title: '9 - P' },
+      { type: 'link', filename: '7p.html', title: '7 - P' },
+      { type: 'link', filename: '4a.html', title: '4 - A' },
+      { type: 'link', filename: '10b.html', title: '10 - B' },
+      { type: 'link', filename: '11a.html', title: '11 - A' },
+      { type: 'category', title: 'Items' },
+      { type: 'link', filename: 'pre1.html', title: 'PrE - 1', counted: false },
+      { type: 'link', filename: 'exam.html', title: 'Exam', special: true, counted: false },
+      { type: 'link', filename: 'whodunit.html', title: 'Whodunit', special1: true, counted: false },
+    ];
+
+    const linkList = document.getElementById("linkList");
+    const counter = document.getElementById("counter");
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebar = document.getElementById("sidebar");
+    
+    // Debug elements
+    const debugVisited = document.getElementById("debugVisited");
+    const debugCounted = document.getElementById("debugCounted");
+    const debugRemaining = document.getElementById("debugRemaining");
+
+    // Initialize visited pages from localStorage - ensure it's always an array
+    let visited = new Set();
+    try {
+      const stored = localStorage.getItem("visitedPages");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          visited = new Set(parsed);
+        }
+      }
+    } catch (e) {
+      console.error("Error loading visited pages:", e);
+      localStorage.removeItem("visitedPages"); // Clear corrupted data
+    }
+
+    function updateCounter() {
+      // Count only pages that should be counted towards the hour limit
+      const countedVisitedPages = [...visited].filter(filename => {
+        const page = pages.find(p => p.filename === filename);
+        return page && page.counted !== false;
+      });
+      
+      const visitedCount = countedVisitedPages.length;
+      const remainingHours = Math.max(0, 11 - visitedCount);
+      
+      // Update counter display
+      counter.textContent = remainingHours;
+      
+      // Update debug info
+      // debugVisited.textContent = visited.size;
+      // debugCounted.textContent = visitedCount;
+      // debugRemaining.textContent = remainingHours;
+      
+      // Visual warning when getting low
+      const counterElement = counter.parentElement;
+      if (remainingHours <= 3) {
+        counterElement.style.backgroundColor = '#ff0000';
+      } else if (remainingHours <= 6) {
+        counterElement.style.backgroundColor = '#ff4500';
+      } else {
+        counterElement.style.backgroundColor = '#8B0000';
+      }
+      
+      console.log(`Counter updated: ${visitedCount} counted visits, ${remainingHours} hours remaining`);
+    }
+
+    function saveVisitedPages() {
+      try {
+        localStorage.setItem("visitedPages", JSON.stringify([...visited]));
+      } catch (e) {
+        console.error("Error saving visited pages:", e);
+      }
+    }
+
+    function renderLinks() {
+      linkList.innerHTML = ''; // Clear existing links
+      
+      pages.forEach(item => {
+        if (item.type === 'category') {
+          const div = document.createElement("div");
+          div.className = 'category';
+          div.textContent = item.title;
+          linkList.appendChild(div);
+        } else if (item.type === 'link') {
+          const a = document.createElement("a");
+          a.href = item.filename;
+          a.textContent = item.title;
+
+          // Apply styles based on visited status and special properties
+          if (visited.has(item.filename)) {
+            a.classList.add("visited");
+          }
+          if (item.special) {
+            a.classList.add("special");
+          }
+          if (item.special1) {
+            a.classList.add("special1");
+          }
+
+          // Handle click events
+          a.onclick = (e) => {
+            console.log(`Clicked: ${item.filename}, was visited: ${visited.has(item.filename)}, counted: ${item.counted !== false}`);
+            
+            // Only add to visited if not already visited
+            if (!visited.has(item.filename)) {
+              visited.add(item.filename);
+              saveVisitedPages();
+              updateCounter();
+              console.log(`Added ${item.filename} to visited pages`);
+            } else {
+              console.log(`${item.filename} already visited`);
+            }
+            
+            // Close sidebar on mobile after clicking
+            if (window.innerWidth <= 768) {
+              sidebar.classList.remove('open');
+            }
+            
+            // Allow normal navigation to proceed
+          };
+
+          linkList.appendChild(a);
+        }
+      });
+    }
+
+    // Initialize everything
+    updateCounter();
+    renderLinks();
+
+    // Mobile menu toggle
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && 
+          !sidebar.contains(e.target) && 
+          !menuToggle.contains(e.target) && 
+          sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+
+    // Handle resize events
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        sidebar.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>

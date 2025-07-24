@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>With the Candlestick Mysteries</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body, html {
+      height: 100%;
+      font-family: Georgia, sans-serif;
+      position: relative;
+    }
+    
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('assets/mainentry1.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .banner {
+      width: 100%;
+      background-color: #222;
+      color: white;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      text-align: center;
+      font-size: 18px;
+      height: 50px;
+    }
+    
+    .container {
+      display: flex;
+      min-height: 100vh;
+      padding-top: 50px;
+    }
+    
+    .sidebar {
+      width: 280px;
+      background-color: #111;
+      color: white;
+      padding: 10px;
+      overflow-y: auto;
+      position: fixed;
+      top: 50px;
+      left: 0;
+      bottom: 0;
+      z-index: 999;
+    }
+    
+    .counter {
+      font-size: 20px;
+      color: rgb(255, 255, 255);
+      margin-bottom: 20px;
+      text-underline-offset: 2px;
+      background-color: #8B0000;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      border: 2px solid #c7c7c7;
+    }
+    
+    .link-list a {
+      display: block;
+      padding: 10px;
+      color: white;
+      text-decoration: none;
+      border-bottom: 1px solid #444;
+      white-space: nowrap;
+    }
+    
+    .link-list a:hover {
+      background-color: #333;
+    }
+    
+    .category {
+      padding: 10px;
+      background-color: #e9b60ece;
+      color: #000000;
+      font-weight: bold;
+      border-bottom: 3px solid #d1a000;
+      margin-top: 10px;
+      text-shadow: 0 0 3px rgb(85, 85, 85);
+    }
+    
+    .main {
+      margin-left: 280px;
+      flex-grow: 1;
+      padding: 20px;
+      position: relative;
+      min-height: calc(100vh - 50px);
+    }
+    
+    .title {
+      font-size: 100px;
+      color: rgb(255, 166, 0);
+      text-shadow: 0 0 10px rgb(0, 0, 0);
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .body-text {
+      font-size: 23px;
+      color: white;
+      text-shadow: 0 0 5px black;
+    }
+    
+    .text-box {
+      background-color: rgba(209, 209, 209, 0.925);
+      color: rgb(0, 0, 0);
+      padding: 20px;
+      overflow-y: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+      max-height: calc(100vh - 250px);
+    }
+
+    .bottom-image {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .bottom-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    .link-list a.visited {
+      background-color: #888888;
+      color: #000000;
+      text-decoration: solid;
+    }
+
+    .link-list a.special {
+      background-color: #002382;
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow: 0 0 3px black;
+    }
+
+    .link-list a.special1 {
+      background-color: #09008a;
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow: 0 0 3px black;
+    }
+
+    /* Mobile menu toggle button */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 60px;
+      left: 10px;
+      z-index: 1001;
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      
+      .sidebar {
+        width: 250px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1002;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main {
+        margin-left: 0;
+        padding: 10px;
+      }
+      
+      .title {
+        font-size: 40px;
+        margin-top: 50px;
+      }
+      
+      .text-box {
+        max-height: none;
+        margin-top: 10px;
+        padding: 15px;
+        font-size: 16px;
+      }
+      
+      .banner {
+        font-size: 16px;
+      }
+    }
+    
+    /* Small mobile styles */
+    @media (max-width: 480px) {
+      .title {
+        font-size: 30px;
+      }
+      
+      .text-box {
+        font-size: 14px;
+        padding: 10px;
+      }
+      
+      .sidebar {
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">Case 1: Where's Wesley</div>
+  <button class="menu-toggle" id="menuToggle">☰ Menu</button>
+  
+  <div class="container">
+    <div class="sidebar" id="sidebar">
+      <div class="counter">Investigative Hours: <span id="counter">0</span></div>
+      <div class="link-list" id="linkList"></div>
+    </div>
+    
+    <div class="main" id="main">
+      <div class="title" id="title">Introduction</div>
+      <div class="text-box">
+        <strong> 11:33 pm – Salem, Massachusetts</strong><br><br><br><br>
+
+        The room was in chaos when I arrived.<br><br>
+
+        Three people lay flat on the lobby's hardwood floor, each with a team of medical personnel beside them. Closest to me, a young woman in a pink dress had just opened her eyes. She winced, barely conscious, saliva dripping from her mouth. Her lips moved but made no sound. Pale and disoriented, I had some doubt that the girl would live; but, with the EMTs at her side, I pressed further into the mansion's sprawling entry.<br><br>
+
+        Another woman lay just a body's length from the first. A swath of gray hair fanned behind her yellow jacket like a veil, and her bright green eyes were fixed on the ceiling's enormous mural— a gaudy depiction of a muscled man firing arrows at a dragon. The EMT kneeling next to her worked frantically, but she was totally still.<br><br>
+
+        At that moment, a stretcher flew by, and I watched as another team lifted a large, groaning man from the Billiard Room's threshold onto the wheeled device. Unlike the others, he was awake and perfectly cogent. His 300 pound frame lay huffing on the stretcher, his right arm propping himself up just enough to sip whisky from the flask he had pulled from his trouser pocket.<br><br>
+
+        "Get me off this thing, now!" he said, before stopping for another breathless swig. "I'm perfectly fine to walk!"<br><br>
+
+        On my approach, the EMT next to him went tumbling backwards, colliding with me directly. I caught him just as the man yelled, "Yea, back off you slug! You have no idea who you're messing with!"<br><br>
+
+        The team backed away, and with great effort his feet managed to find the floor.<br><br>
+
+        Walking over to him, I asked. "You wouldn't know the owner of the house, would you?"<br><br>
+
+        "Oh, you mean Wesley? Wesley Range? Yes, we are long-time friends."<br><br>
+
+        "And do you know where I could find him?"<br><br>
+
+        "Uggh," he said, wiping his mouth on his shirt. "I don't think anyone's seen him since that awful speech of his this afternoon. The old man rambled for nearly an hour." He paused for a moment, looking to either side, before flashing me his silver flask, "Luckily, I had this to keep the audience entertained."<br><br>
+
+        He giggled to himself, as I pulled out my notepad. Snapping into another voice, he asked, "And just who might you be, friend?" His eyes swept me from head to toe.<br><br>
+
+        "I'm Detective Dent, with the Salem Police Department. We got a call that there was some trouble up here."<br><br>
+
+        "Well, Detective, at least you've got that much right." he said, gesturing to the scene around us.<br><br>
+
+        "And what is your name?"<br><br>
+
+        "I'm Dale, Dale Dawson– owner of Dale's Delivery. You zip it; we ship it!"<br><br>
+
+        "Oh, yes, I think I've seen your trucks around town. Well, I might need you further Mr. Dawson, so please do not go anywhere."<br><br>
+
+        "Oh, come on, Detective. I have a business to run in the morning."<br><br>
+
+        "This is a potential murder scene, Mr. Dawson. No one leaves until I say. Now, tell me: if Wesley Range isn't available, who's in charge around here?"<br><br>
+
+        "Make no mistake– that'll be Mr. Grady. He's right over there, in the study."<br><br>
+
+        "Thank you, Dale."<br><br>
+
+        "Don't forget it, Detective– and, just be warned, the man's an insufferable snob."<br><br>
+
+        I nodded and stepped into the study.<br><br>
+
+        Mr. Grady was a man of at least 70. His eyes were quick and keen as owl's and on me from the moment I entered the firelit room. Shadows danced on the many paintings hung in brass frames, and the dying flames glistened on the tall window behind him as I walked to where he sat at a desk.<br><br>
+
+        His fingers were laced, resting calmly on top of a piece of paper in front him. With perfect posture, only his head moved as he waited for me to approach.<br><br>
+
+        I preferred suspects to make the first move, but he only smiled, with a grace and simplicity that told me I would be the one to get things started.<br><br>
+
+        "Mr. Grady, is it?"<br><br>
+
+        "It is, sir. Very good."<br><br>
+
+        "Mr. Dawson said you're the one in charge around here."<br><br>
+
+        "I am, sir. My master has gone missing, so I'm making the best of it until he returns."<br><br>
+
+        "And are you the one who called us?"<br><br>
+
+        "Yes. It seems a real mess has unfolded under my watch, doesn't it Detective?"<br><br>
+
+        "I have to agree. Can you tell me what happened?"<br><br>
+
+        "Well, I'm afraid I don't know much." His eyes never left me as he spoke. "The Master had me arrange a weekend stay for a small group of invitees. They arrived Friday evening, and things had been going smoothly– despite some additional demand on my staff– until this afternoon, when Master Range suddenly went missing."<br><br>
+
+        "What time was that?"<br><br>
+
+        "I don't know, sir. Sometime after 3 pm is the best I can offer."<br><br>
+
+        "Have you looked for him?"<br><br>
+
+        "Yes, of course. All over the house and grounds we searched, until it got dark and dinner was ready. Do you have a better idea of where he might be? Under that wood pile by the fireplace? Inside the stone walls of the cellar? Don't be ridiculous, Detective. We looked everywhere."<br><br>
+
+        "No, no. I'm sure you did a fine job– and I'll, of course, be taking a look for myself. So, what happened to these three in the lobby?"<br><br>
+
+        "Well, I couldn't say, sir. They just sort of collapsed as we were headed to the billiard room for the evening."<br><br>
+
+        "Hmm, is there anything else you've seen tonight? Anything that could help me?"<br><br>
+
+        "I've seen nothing else, sir. A butler is always busy with his duties. But, what I have done, Detective, is inscribe a list of names for you on this paper."<br><br>
+
+        He unfolded his hands and thrust the paper toward me saying, "I trust you'll find what you need in here. Good evening, sir."<br><br>
+
+        Standing from the desk, he gave the slightest bow before crossing his arms behind his back and walking into the entry.<br><br>
+
+        I unfolded the paper and read:
+      </div>
+      <div class="bottom-image">
+        <img src="assets/IntroNote.jpg" alt="Evidence image">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const pages = [
+      { type: 'link', filename: 'notes.html', title: 'Notes', counted: false},
+      { type: 'link', filename: 'rules.html', title: 'Rules', counted: false},
+      { type: 'link', filename: 'intro.html', title: 'Introduction', counted: false},
+      { type: 'category', title: 'People' },
+      { type: 'link', filename: 'fredwells.html', title: 'Fred Wells' },
+      { type: 'link', filename: 'angiewells.html', title: 'Angie Wells' },
+      { type: 'link', filename: 'daledawson.html', title: 'Dale Dawson' },
+      { type: 'link', filename: 'allenflanders.html', title: 'Allen Flanders' },
+      { type: 'link', filename: 'marlabarton.html', title: 'Marla Barton' },
+      { type: 'link', filename: 'missflora.html', title: 'Miss Flora - Housekeeper' },
+      { type: 'link', filename: 'mrslawrence.html', title: 'Mrs. Lawrence - Cook' },
+      { type: 'link', filename: 'thomasgrady.html', title: 'Thomas Grady - Butler' },
+      { type: 'category', title: 'First Floor' },
+      { type: 'link', filename: 'mainentry.html', title: 'Main Entry' },
+      { type: 'link', filename: 'billiardroom.html', title: 'Billiard Room'},
+      { type: 'link', filename: 'kitchen.html', title: 'Kitchen', counted: false },
+      { type: 'link', filename: 'gardensuite.html', title: 'Garden Suite' },
+      { type: 'link', filename: 'thegarden.html', title: 'The Garden' },
+      { type: 'link', filename: '12c.html', title: '12 - C' },
+      { type: 'link', filename: '9a.html', title: '9 - A' },
+      { type: 'link', filename: '3p.html', title: '3 - P', counted: false },
+      { type: 'link', filename: '4p.html', title: '4 - P' },
+      { type: 'category', title: 'Second Floor' },
+      { type: 'link', filename: 'birdroom.html', title: 'Bird Room' },
+      { type: 'link', filename: 'warroom.html', title: 'War Room' },
+      { type: 'link', filename: 'ivorysuite.html', title: 'Ivory Suite' },
+      { type: 'link', filename: '9p.html', title: '9 - P' },
+      { type: 'link', filename: '7p.html', title: '7 - P' },
+      { type: 'link', filename: '4a.html', title: '4 - A' },
+      { type: 'link', filename: '10b.html', title: '10 - B' },
+      { type: 'link', filename: '11a.html', title: '11 - A' },
+      { type: 'category', title: 'Items' },
+      { type: 'link', filename: 'pre1.html', title: 'PrE - 1', counted: false },
+      { type: 'link', filename: 'exam.html', title: 'Exam', special: true, counted: false },
+      { type: 'link', filename: 'whodunit.html', title: 'Whodunit', special1: true, counted: false },
+    ];
+
+    const linkList = document.getElementById("linkList");
+    const counter = document.getElementById("counter");
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebar = document.getElementById("sidebar");
+    
+    // Debug elements
+    const debugVisited = document.getElementById("debugVisited");
+    const debugCounted = document.getElementById("debugCounted");
+    const debugRemaining = document.getElementById("debugRemaining");
+
+    // Initialize visited pages from localStorage - ensure it's always an array
+    let visited = new Set();
+    try {
+      const stored = localStorage.getItem("visitedPages");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          visited = new Set(parsed);
+        }
+      }
+    } catch (e) {
+      console.error("Error loading visited pages:", e);
+      localStorage.removeItem("visitedPages"); // Clear corrupted data
+    }
+
+    function updateCounter() {
+      // Count only pages that should be counted towards the hour limit
+      const countedVisitedPages = [...visited].filter(filename => {
+        const page = pages.find(p => p.filename === filename);
+        return page && page.counted !== false;
+      });
+      
+      const visitedCount = countedVisitedPages.length;
+      const remainingHours = Math.max(0, 11 - visitedCount);
+      
+      // Update counter display
+      counter.textContent = remainingHours;
+      
+      // Update debug info
+      // debugVisited.textContent = visited.size;
+      // debugCounted.textContent = visitedCount;
+      // debugRemaining.textContent = remainingHours;
+      
+      // Visual warning when getting low
+      const counterElement = counter.parentElement;
+      if (remainingHours <= 3) {
+        counterElement.style.backgroundColor = '#ff0000';
+      } else if (remainingHours <= 6) {
+        counterElement.style.backgroundColor = '#ff4500';
+      } else {
+        counterElement.style.backgroundColor = '#8B0000';
+      }
+      
+      console.log(`Counter updated: ${visitedCount} counted visits, ${remainingHours} hours remaining`);
+    }
+
+    function saveVisitedPages() {
+      try {
+        localStorage.setItem("visitedPages", JSON.stringify([...visited]));
+      } catch (e) {
+        console.error("Error saving visited pages:", e);
+      }
+    }
+
+    function renderLinks() {
+      linkList.innerHTML = ''; // Clear existing links
+      
+      pages.forEach(item => {
+        if (item.type === 'category') {
+          const div = document.createElement("div");
+          div.className = 'category';
+          div.textContent = item.title;
+          linkList.appendChild(div);
+        } else if (item.type === 'link') {
+          const a = document.createElement("a");
+          a.href = item.filename;
+          a.textContent = item.title;
+
+          // Apply styles based on visited status and special properties
+          if (visited.has(item.filename)) {
+            a.classList.add("visited");
+          }
+          if (item.special) {
+            a.classList.add("special");
+          }
+          if (item.special1) {
+            a.classList.add("special1");
+          }
+
+          // Handle click events
+          a.onclick = (e) => {
+            console.log(`Clicked: ${item.filename}, was visited: ${visited.has(item.filename)}, counted: ${item.counted !== false}`);
+            
+            // Only add to visited if not already visited
+            if (!visited.has(item.filename)) {
+              visited.add(item.filename);
+              saveVisitedPages();
+              updateCounter();
+              console.log(`Added ${item.filename} to visited pages`);
+            } else {
+              console.log(`${item.filename} already visited`);
+            }
+            
+            // Close sidebar on mobile after clicking
+            if (window.innerWidth <= 768) {
+              sidebar.classList.remove('open');
+            }
+            
+            // Allow normal navigation to proceed
+          };
+
+          linkList.appendChild(a);
+        }
+      });
+    }
+
+    // Initialize everything
+    updateCounter();
+    renderLinks();
+
+    // Mobile menu toggle
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && 
+          !sidebar.contains(e.target) && 
+          !menuToggle.contains(e.target) && 
+          sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+
+    // Handle resize events
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        sidebar.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>

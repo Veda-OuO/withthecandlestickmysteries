@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>With the Candlestick Mysteries</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body, html {
+      height: 100%;
+      font-family: Georgia, sans-serif;
+      position: relative;
+    }
+    
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('assets/rules.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .banner {
+      width: 100%;
+      background-color: #222;
+      color: white;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      text-align: center;
+      font-size: 18px;
+      height: 50px;
+    }
+    
+    .container {
+      display: flex;
+      min-height: 100vh;
+      padding-top: 50px;
+    }
+    
+    .sidebar {
+      width: 280px;
+      background-color: #111;
+      color: white;
+      padding: 10px;
+      overflow-y: auto;
+      position: fixed;
+      top: 50px;
+      left: 0;
+      bottom: 0;
+      z-index: 999;
+    }
+    
+    .counter {
+      font-size: 20px;
+      color: rgb(255, 255, 255);
+      margin-bottom: 20px;
+      text-underline-offset: 2px;
+      background-color: #8B0000;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      border: 2px solid #ff6b6b;
+    }
+    
+    .link-list a {
+      display: block;
+      padding: 10px;
+      color: white;
+      text-decoration: none;
+      border-bottom: 1px solid #444;
+      white-space: nowrap;
+    }
+    
+    .link-list a:hover {
+      background-color: #333;
+    }
+    
+    .category {
+      padding: 10px;
+      background-color: #e9b60ece;
+      color: #000000;
+      font-weight: bold;
+      border-bottom: 3px solid #d1a000;
+      margin-top: 10px;
+      text-shadow: 0 0 3px rgb(85, 85, 85);
+    }
+    
+    .main {
+      margin-left: 280px;
+      flex-grow: 1;
+      padding: 20px;
+      position: relative;
+      min-height: calc(100vh - 50px);
+    }
+    
+    .title {
+      font-size: 100px;
+      color: rgb(255, 166, 0);
+      text-shadow: 0 0 10px rgb(0, 0, 0);
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .body-text {
+      font-size: 23px;
+      color: white;
+      text-shadow: 0 0 5px black;
+    }
+    
+    .text-box {
+      background-color: rgba(209, 209, 209, 0.925);
+      color: rgb(0, 0, 0);
+      padding: 20px;
+      overflow-y: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+      max-height: calc(100vh - 250px);
+    }
+
+    .secondary-text-box {
+      margin-top: 20px;
+      max-height: 300px;
+    }
+
+    .bottom-image {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .bottom-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    .link-list a.visited {
+      background-color: #888888;
+      color: #000000;
+      text-decoration: solid;
+    }
+
+    .link-list a.special {
+      background-color: #002382;
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow: 0 0 3px black;
+    }
+
+    .link-list a.special1 {
+      background-color: #09008a;
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow: 0 0 3px black;
+    }
+
+    /* Mobile menu toggle button */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 60px;
+      left: 10px;
+      z-index: 1001;
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      
+      .sidebar {
+        width: 250px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1002;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main {
+        margin-left: 0;
+        padding: 10px;
+      }
+      
+      .title {
+        font-size: 40px;
+        margin-top: 50px;
+      }
+      
+      .text-box {
+        max-height: none;
+        margin-top: 10px;
+        padding: 15px;
+        font-size: 16px;
+      }
+      
+      .banner {
+        font-size: 16px;
+      }
+    }
+    
+    /* Small mobile styles */
+    @media (max-width: 480px) {
+      .title {
+        font-size: 30px;
+      }
+      
+      .text-box {
+        font-size: 14px;
+        padding: 10px;
+      }
+      
+      .sidebar {
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">Case 1: Where's Wesley</div>
+  <button class="menu-toggle" id="menuToggle">☰ Menu</button>
+  
+  <div class="container">
+    <div class="sidebar" id="sidebar">
+      <div class="counter">Investigative Hours: <span id="counter">0</span></div>
+      <div class="link-list" id="linkList"></div>
+    </div>
+    
+    <div class="main" id="main">
+      <div class="title" id="title">Whodunit</div>
+      <div class="text-box">
+<p><span style="font-weight: 400;">It was nearly midday when Chief Inspector Cross called us into the study&ndash; the place where I had first met Mr. Grady some 11 hours ago. No one had slept. Dale, Flora, Mrs. Lawrence, Mr. Grady, and I shuffled to our seats. Fred Wells was handcuffed to a chair, an officer standing on either side of him.</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">The Chief Inspector stood in front of the small crowd, his voice filling the room as he spoke.</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Thank you for joining me everyone. I won&rsquo;t waste any time. </span><span style="font-weight: 400;">After a careful review of the evidence Detective Dent and my team have gathered, I am ready to present my theory of the case.&nbsp;</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">Let me start by saying that this has been a very&nbsp;puzzling night&ndash; one of murder, love, and avarice.&nbsp;</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">As you all know, this weekend, Mr. Wesley Range played host to a very particular set of guests&ndash; only one of whom remains free and with us now.&rdquo; He nodded at Dale, before continuing,&nbsp;</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Each of the invitees were selected with a specific purpose in mind&ndash; that much is clear.</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">But let&rsquo;s start from the beginning. When Detective Dent and other law enforcement officials arrived on scene, three people lay on the floor of the main entry: Dale Dawson, Marla Barton, and Angie Wells.</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">Quickly, it became clear that we were dealing with a poisoning. In our scramble to secure the scene, we initially chased the theory that Dale Dawson&rsquo;s flask had been the source of the trouble. However, I can confirm that the poison was instead delivered via the pea soup that was served at last evening&rsquo;s dinner.</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">As for the fate of the guests, Marla remains in critical condition at Salem General; and, Dale, you seem to have made a full recovery. However, I am sad to inform you all that Mrs. Wells passed away on scene.&nbsp;</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">For the first step of my investigation, I wanted to know who poisoned these guests and why. There were only a few possible suspects&ndash; most of the people in the house had been poisoned themselves or were absent from dinner preparations entirely. That left me with a short list: Mr. Grady, Mrs. Lawrence, or Miss Flora. And after some investigation, it was only Flora who had both the motive and opportunity to poison the soup.&nbsp;</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">We discovered that she was having an affair with Fred Wells when Detective Dent found a piece of stationary from the Bird Room hidden in Miss Flora&rsquo;s dresser. There were also two notes from Flora to Fred in the Bird Room. Our theory suggests that Fred procured the poison and gave it to Flora some time prior to tonight's events. However, she still had a problem: Mrs Lawrence would be in the kitchen for the entire shift, so Flora needed a way of poisoning the food without being noticed.&nbsp;</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">Her solution was very clever. She claimed to be sick and asked for a short break from her duties. In this time, she snuck outside and rang the delivery bell. When Mrs. Lawrence went to answer, Flora took the opportunity to poison not only the pea soup but the staff's chilli, as well. Flora and Fred needed both the staff and guests out of the way if they were to succeed with their plan.</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">Naturally, this leads us to the question: Why would Flora and Fred conspire to poison the guests?</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">Well, that's where a careful study of Mr. Range and his eccentric practices became of great importance. The mountain of letters and receipts on his master bedroom desk revealed that Mr. Range was in dire financial trouble. The diagnosis and treatment of his illness had drained the entirety of his retirement fund and then some. Desperate and in rapid decline, Mr. Range decided to host a weekend event for a particular group of people who might help him realize his only chance of regaining his financial security.</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">What could the old man have wanted with Miss Barton, a customs agent; Mr. Dawson, the owner of a delivery business; Fred Wells, a money-laundering casino owner; and Allen Flanders, the owner of an auction house with a particular reputation?
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">To understand this, it is necessary to look into Mr. Range's past. As shown in the dozens of photographs hung throughout the house, while traveling the world as a younger man, Mr. Range amassed a substantial collection of illegal goods&ndash; all of it undocumented and unknown to government officials. No doubt Mr. Range felt it was necessary to sell off as much of his collection as he could to continue his medical treatment. He assembled a group of potential partners that could help quiety achieve this goal without attracting the attention of offcials. What he didn't realize was that Miss Flora had been up to far more than cleaning during her time of employemnt at the Range Estate.</span><span style="font-weight: 400;">l.</span><span style="font-weight: 400;"> The hours she spent every day, alone, and snooping through Mr. Range's effects, seem to have given her plenty of ideas about the nature of&nbsp;his situation as well as the existence of his hidden collection.</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">It is my belief that the pair needed to eliminate as many people in the house as possible in order to make their escape with the bulky collection. What is interesting is that, even after putting their plan into action, they likely did not know the precise whereabouts of Mr. Range's stash. However, I suspect that it was easy enough for Fred to extract that information from the old man before disposing of him entirely.</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">Miss Flora&rsquo;s first task of the day, while cleaning rooms, was to uncover the seven golden apples necessary to access Mr. Range&rsquo;s secret collection. One by one, she smashed a dragon artifact in each of the guests' rooms and seized the apples from within. The distraction of police activity in the main entry probably enabled her to take the remaining apples from the garden and billiard table leg with relative ease.&nbsp;</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">Because the events of the day had been scheduled one after another, Flora knew it was unlikely that any guest would have time to return to their room before dinner. Mr. Grady happened to do so, but she was well aware of his habits and cleaned his room only after he left to prepare dinner.&nbsp;</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">It was almost flawless, however, Mr. Allen Flanders was unlucky enough to return to the War Room while Flora was tinkering with the dragon mask on the wall. He must have been irate at the sight of the intrusion and perhaps had suspicions himself that there was more at play than Mr. Range was letting on.&nbsp;</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">He likely saw the golden apple in Miss Flora&rsquo;s possession and demanded it from her. She refused, and, when Allen turned from her, perhaps to call for help or procure a weapon himself, Flora stabbed him in the back with a sword she pulled from the wall. Together, she and Fred hoisted his body into the armoire and continued with their plan.</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">Fred was spotted on a few occasions: once by Detective Dent in the servant&rsquo;s wing&ndash; likely on the way to visit Flora&ndash; and once by Dale Dawson as he made his own illicit excursion to Mr. Range&rsquo;s bedroom. At the time of this encounter, Mr. Range was already dead. Thanks to a torn jacket fragment found hanging on the exterior wall and scuff marks on the master bedroom window ledge, a medical team was able to locate Mr. Range, pulling his body from the lake below his bedroom window just a few hours ago. Fred threw Wesley from the window after the old man gave up the secrets of his hidden cache.&nbsp;</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">It must have been fairly early in the night when, with all seven apples in his possession, Fred inserted them into the frame of the painting <em>The Garden of Hesperides</em>. We now know that it was behind this painting that Mr. Range stored his illicit collection.&nbsp;Quietly, Fred then began the process of transporting Mr. Range's illicit goods from the secret room behind the painting to the Bird Room closet.&nbsp;</span></p>
+<p class="demoTitle">&nbsp;</p>
+<p><span style="font-weight: 400;">We were lucky that the pair did not anticpate dilatory nature of Mrs. Barton's incredibly specific palette. The staff's dinner was delayed long enough for the poison in the pea soup to make its effects known, and we recovered the chilli from the kitchen fridge before it had been eaten.  With only the guests poisoned and incapacitated, the staff was still able to phone the police. And once we arrived on scene, we were able to put the pieces together before Flora and Fred could make their escape.</span></p>
+
+      </div>
+
+
+      <!-- <div class="bottom-image">
+        <img src="assets/WRNote.jpg" alt="Evidence image">
+      </div> -->
+
+
+
+      <div class="text-box secondary-text-box">
+       <p><strong> Exam Solutions: </strong></p>
+       <p>&nbsp;</p>
+       <p>&nbsp;</p> 
+       <p> <strong>1:</strong>   All three were <strong>poisoned</strong> after eating <strong>pea soup</strong> at dinner. <strong>(10 points)</strong></p>
+         <p>&nbsp;</p>
+        <p><strong>Fred</strong> and <strong>Flora</strong> conspired to poison the guests and staff. Flora <strong>rang the bell</strong> to distract Mrs. Lawrence so she could poison the pea soup and chilli stew. They needed everyone out of the way to make of with <strong> Mr. Range's hidden collection.</strong> <strong>(30 points)</strong> </p>
+
+       <p>&nbsp;</p>
+       <p>&nbsp;</p> 
+       <strong>2:</strong>   To assemble a team to sell his <strong>illegal goods </strong> in order to pay for his medical treatment. <strong> (20 points)</strong>
+       <p>&nbsp;</p>
+       <ul>
+<p><span style="text-decoration: underline;"><strong>10 Points per person:</strong></span></p>
+<ul>
+<li><strong>Allen Flanders</strong> was an <strong>auction</strong> house owner. Mr. Range needed him to <strong>sell the goods</strong> to descrete buyers.</li>
+<li><strong>Fred Wells</strong> was a casino owner who&nbsp;<strong>laundered money</strong>. Mr. Range needed his services for the <strong>proceeds of his sales</strong>.</li>
+<li><strong>Dale Dawson</strong> was a <strong>delivery</strong> company owner. Mr. Range needed him to <strong>transport the goods</strong>.</li>
+<li><strong>Marla Barton</strong> was a <strong>customs agent</strong>. Mr. Range needed her to ensure <strong>international buyers could recieve their items undetected</strong> by US officials.</li>
+</ul>
+       <p>&nbsp;</p>
+       <p>&nbsp;</p>
+
+       <strong>3:</strong>  His body fell from inside the <strong>War Room armoire</strong>.&nbsp;<strong>(10 points)</strong>
+       <p>&nbsp;</p>
+<p><strong>Flora stabbed him</strong>&nbsp;with an antique sword after he accosted her in his room.&nbsp;<strong>(10 points)</strong></p>
+
+       <p>&nbsp;</p>
+       <p>&nbsp;</p>
+       <strong>4:</strong>   In the secret room behind the painting&nbsp;<strong><em>The Garden of Hesperides.</em></strong><strong>(30 points)</strong>
+       <p>&nbsp;</p>
+       <p>&nbsp;</p>
+       <strong>5:</strong> To get a plate of food to tame the guard <strong>dog</strong> in Master Range's room.  <strong>(10 points)</strong>
+       <p>&nbsp;</p>
+       <p>&nbsp;</p>
+       <strong>6:</strong>  Fred threw Wesley Range from the window. His body was in the <strong>lake</strong> below the master bedroom. <strong>(30 points)</strong>
+      </div>
+
+
+    </div>
+  </div>
+
+  <script>
+    const pages = [
+      { type: 'link', filename: 'notes.html', title: 'Notes', counted: false},
+      { type: 'link', filename: 'rules.html', title: 'Rules', counted: false},
+      { type: 'link', filename: 'intro.html', title: 'Introduction', counted: false},
+      { type: 'category', title: 'People' },
+      { type: 'link', filename: 'fredwells.html', title: 'Fred Wells' },
+      { type: 'link', filename: 'angiewells.html', title: 'Angie Wells' },
+      { type: 'link', filename: 'daledawson.html', title: 'Dale Dawson' },
+      { type: 'link', filename: 'allenflanders.html', title: 'Allen Flanders' },
+      { type: 'link', filename: 'marlabarton.html', title: 'Marla Barton' },
+      { type: 'link', filename: 'missflora.html', title: 'Miss Flora - Housekeeper' },
+      { type: 'link', filename: 'mrslawrence.html', title: 'Mrs. Lawrence - Cook' },
+      { type: 'link', filename: 'thomasgrady.html', title: 'Thomas Grady - Butler' },
+      { type: 'category', title: 'First Floor' },
+      { type: 'link', filename: 'mainentry.html', title: 'Main Entry' },
+      { type: 'link', filename: 'billiardroom.html', title: 'Billiard Room'},
+      { type: 'link', filename: 'kitchen.html', title: 'Kitchen', counted: false },
+      { type: 'link', filename: 'gardensuite.html', title: 'Garden Suite' },
+      { type: 'link', filename: 'thegarden.html', title: 'The Garden' },
+      { type: 'link', filename: '12c.html', title: '12 - C' },
+      { type: 'link', filename: '9a.html', title: '9 - A' },
+      { type: 'link', filename: '3p.html', title: '3 - P', counted: false },
+      { type: 'link', filename: '4p.html', title: '4 - P' },
+      { type: 'category', title: 'Second Floor' },
+      { type: 'link', filename: 'birdroom.html', title: 'Bird Room' },
+      { type: 'link', filename: 'warroom.html', title: 'War Room' },
+      { type: 'link', filename: 'ivorysuite.html', title: 'Ivory Suite' },
+      { type: 'link', filename: '9p.html', title: '9 - P' },
+      { type: 'link', filename: '7p.html', title: '7 - P' },
+      { type: 'link', filename: '4a.html', title: '4 - A' },
+      { type: 'link', filename: '10b.html', title: '10 - B' },
+      { type: 'link', filename: '11a.html', title: '11 - A' },
+      { type: 'category', title: 'Items' },
+      { type: 'link', filename: 'pre1.html', title: 'PrE - 1', counted: false },
+      { type: 'link', filename: 'exam.html', title: 'Exam', special: true, counted: false },
+      { type: 'link', filename: 'whodunit.html', title: 'Whodunit', special1: true, counted: false },
+    ];
+
+    const linkList = document.getElementById("linkList");
+    const counter = document.getElementById("counter");
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebar = document.getElementById("sidebar");
+    
+    // Debug elements
+    const debugVisited = document.getElementById("debugVisited");
+    const debugCounted = document.getElementById("debugCounted");
+    const debugRemaining = document.getElementById("debugRemaining");
+
+    // Initialize visited pages from localStorage - ensure it's always an array
+    let visited = new Set();
+    try {
+      const stored = localStorage.getItem("visitedPages");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          visited = new Set(parsed);
+        }
+      }
+    } catch (e) {
+      console.error("Error loading visited pages:", e);
+      localStorage.removeItem("visitedPages"); // Clear corrupted data
+    }
+
+    function updateCounter() {
+      // Count only pages that should be counted towards the hour limit
+      const countedVisitedPages = [...visited].filter(filename => {
+        const page = pages.find(p => p.filename === filename);
+        return page && page.counted !== false;
+      });
+      
+      const visitedCount = countedVisitedPages.length;
+      const remainingHours = Math.max(0, 11 - visitedCount);
+      
+      // Update counter display
+      counter.textContent = remainingHours;
+      
+      // Update debug info
+      // debugVisited.textContent = visited.size;
+      // debugCounted.textContent = visitedCount;
+      // debugRemaining.textContent = remainingHours;
+      
+      // Visual warning when getting low
+      const counterElement = counter.parentElement;
+      if (remainingHours <= 3) {
+        counterElement.style.backgroundColor = '#ff0000';
+      } else if (remainingHours <= 6) {
+        counterElement.style.backgroundColor = '#ff4500';
+      } else {
+        counterElement.style.backgroundColor = '#8B0000';
+      }
+      
+      console.log(`Counter updated: ${visitedCount} counted visits, ${remainingHours} hours remaining`);
+    }
+
+    function saveVisitedPages() {
+      try {
+        localStorage.setItem("visitedPages", JSON.stringify([...visited]));
+      } catch (e) {
+        console.error("Error saving visited pages:", e);
+      }
+    }
+
+    function renderLinks() {
+      linkList.innerHTML = ''; // Clear existing links
+      
+      pages.forEach(item => {
+        if (item.type === 'category') {
+          const div = document.createElement("div");
+          div.className = 'category';
+          div.textContent = item.title;
+          linkList.appendChild(div);
+        } else if (item.type === 'link') {
+          const a = document.createElement("a");
+          a.href = item.filename;
+          a.textContent = item.title;
+
+          // Apply styles based on visited status and special properties
+          if (visited.has(item.filename)) {
+            a.classList.add("visited");
+          }
+          if (item.special) {
+            a.classList.add("special");
+          }
+          if (item.special1) {
+            a.classList.add("special1");
+          }
+
+          // Handle click events
+          a.onclick = (e) => {
+            console.log(`Clicked: ${item.filename}, was visited: ${visited.has(item.filename)}, counted: ${item.counted !== false}`);
+            
+            // Only add to visited if not already visited
+            if (!visited.has(item.filename)) {
+              visited.add(item.filename);
+              saveVisitedPages();
+              updateCounter();
+              console.log(`Added ${item.filename} to visited pages`);
+            } else {
+              console.log(`${item.filename} already visited`);
+            }
+            
+            // Close sidebar on mobile after clicking
+            if (window.innerWidth <= 768) {
+              sidebar.classList.remove('open');
+            }
+            
+            // Allow normal navigation to proceed
+          };
+
+          linkList.appendChild(a);
+        }
+      });
+    }
+
+    // Initialize everything
+    updateCounter();
+    renderLinks();
+
+    // Mobile menu toggle
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && 
+          !sidebar.contains(e.target) && 
+          !menuToggle.contains(e.target) && 
+          sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+
+    // Handle resize events
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        sidebar.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>

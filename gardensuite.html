@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>With the Candlestick Mysteries</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body, html {
+      height: 100%;
+      font-family: Georgia, sans-serif;
+      position: relative;
+    }
+    
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('assets/gardensuite.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .banner {
+      width: 100%;
+      background-color: #222;
+      color: white;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      text-align: center;
+      font-size: 18px;
+      height: 50px;
+    }
+    
+    .container {
+      display: flex;
+      min-height: 100vh;
+      padding-top: 50px;
+    }
+    
+    .sidebar {
+      width: 280px;
+      background-color: #111;
+      color: white;
+      padding: 10px;
+      overflow-y: auto;
+      position: fixed;
+      top: 50px;
+      left: 0;
+      bottom: 0;
+      z-index: 999;
+    }
+    
+    .counter {
+      font-size: 20px;
+      color: rgb(255, 255, 255);
+      margin-bottom: 20px;
+      text-underline-offset: 2px;
+      background-color: #8B0000;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      border: 2px solid #c7c7c7;
+    }
+    
+    .link-list a {
+      display: block;
+      padding: 10px;
+      color: white;
+      text-decoration: none;
+      border-bottom: 1px solid #444;
+      white-space: nowrap;
+    }
+    
+    .link-list a:hover {
+      background-color: #333;
+    }
+    
+    .category {
+      padding: 10px;
+      background-color: #e9b60ece;
+      color: #000000;
+      font-weight: bold;
+      border-bottom: 3px solid #d1a000;
+      margin-top: 10px;
+      text-shadow: 0 0 3px rgb(85, 85, 85);
+    }
+    
+    .main {
+      margin-left: 280px;
+      flex-grow: 1;
+      padding: 20px;
+      position: relative;
+      min-height: calc(100vh - 50px);
+    }
+    
+    .title {
+      font-size: 100px;
+      color: rgb(255, 166, 0);
+      text-shadow: 0 0 10px rgb(0, 0, 0);
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .body-text {
+      font-size: 23px;
+      color: white;
+      text-shadow: 0 0 5px black;
+    }
+    
+    .text-box {
+      background-color: rgba(209, 209, 209, 0.925);
+      color: rgb(0, 0, 0);
+      padding: 20px;
+      overflow-y: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+      max-height: calc(100vh - 250px);
+    }
+
+    .bottom-image {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .bottom-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    .link-list a.visited {
+      background-color: #888888;
+      color: #000000;
+      text-decoration: solid;
+    }
+
+    .link-list a.special {
+      background-color: #002382;
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow: 0 0 3px black;
+    }
+
+    .link-list a.special1 {
+      background-color: #09008a;
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow: 0 0 3px black;
+    }
+
+    /* Mobile menu toggle button */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 60px;
+      left: 10px;
+      z-index: 1001;
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      
+      .sidebar {
+        width: 250px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1002;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main {
+        margin-left: 0;
+        padding: 10px;
+      }
+      
+      .title {
+        font-size: 40px;
+        margin-top: 50px;
+      }
+      
+      .text-box {
+        max-height: none;
+        margin-top: 10px;
+        padding: 15px;
+        font-size: 16px;
+      }
+      
+      .banner {
+        font-size: 16px;
+      }
+    }
+    
+    /* Small mobile styles */
+    @media (max-width: 480px) {
+      .title {
+        font-size: 30px;
+      }
+      
+      .text-box {
+        font-size: 14px;
+        padding: 10px;
+      }
+      
+      .sidebar {
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">Case 1: Where's Wesley</div>
+  <button class="menu-toggle" id="menuToggle">☰ Menu</button>
+  
+  <div class="container">
+    <div class="sidebar" id="sidebar">
+      <div class="counter">Investigative Hours: <span id="counter">0</span></div>
+      <div class="link-list" id="linkList"></div>
+    </div>
+    
+    <div class="main" id="main">
+      <div class="title" id="title">Garden Suite</div>
+      <div class="text-box">
+<p><span style="font-weight: 400;">Just off the entry hall, I slipped into Mr. Dawson&rsquo;s Garden Suite. The circular room was more like a conservatory than a bedroom. Moonlight poured in through a line of tall windows, their delicate outlines stretching the entire length of the outer wall. On the floor in front of them, a congregation of pots spilled their tendrils onto the white tile, twisting and knotting over one another like snakes.&nbsp;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">Outside, a maze of hedges and winding paths stretched in all directions. From the middle of the garden, a snarling dragon&rsquo;s head, carved from the purest white marble, rose high above the greenery. Between its rows of jagged teeth, something shimmered in the moonlight.</span></p>
+<p><br /><br /></p>
+<p><span style="font-weight: 400;">I started my search in the dark, not wanting to attract attention from the rest of the house. Dale was a much tidier man than I expected. His effects were organized and well-maintained. Beside the bed, a small black notebook caught my eye. Quickly flipping through the pages, I found it to be a lengthy, hand-written list of names, addresses, dates, and payment information.&nbsp;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">I was still rifling through the pages when, suddenly, the door opened and an orange light filled the room.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">I saw him before he saw me.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Good evening, Mr. Dawson.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Detective!&rdquo; he clutched his chest. &ldquo;What on earth do you think you&rsquo;re doing?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">The small book was behind my back, and I returned it to the nightstand before walking toward him.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;It seemed prudent to search your things, Mr. Dawson. I&rsquo;m just being thorough.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">He was nervous, his tone heavy. &ldquo;You need to leave, Detective. Come back with a warrant. I won&rsquo;t have you tearing apart my&hellip;.. </span><em><span style="font-weight: 400;">My god! Why is there dirt all over the floor?!</span></em><span style="font-weight: 400;">&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">Confused, I asked, &ldquo;What do you mean?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">He pointed to a decorative nook in the corner of the room where a massive flower pot, more than three feet tall and shaped like a dragon, rested in the shadows. Whatever plantings had once grown in its soil had been torn away. Black dirt and bits of fertilizer littered the floor to reveal a narrow hole some 16 inches deep&ndash; just big enough to insert an arm.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;What is this madness, Detective? What have you been doing here? Are you some kind of gopher?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Certainly not, Mr. Dawson. It must have been that way when I came in. I just now noticed.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Ohhh, please, Detective. I have not been in here since before dinner, and I can assure it was perfectly in order when I left.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Is that so? Well, you </span><em><span style="font-weight: 400;">do</span></em><span style="font-weight: 400;"> have a strong alibi after dinner, Mr. Dawson. Maybe you wouldn&rsquo;t mind if I looked around for some clues to who might have done this?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">He nodded and limped after me, a bandage on his ankle poking through his torn pants leg. The desk and dresser were mostly empty and their contents of little interest. However, when I unzipped his hygiene kit in the bathroom, an empty vial of poison was resting atop the collection of combs. I took a rag from my pocket and plucked it from the case.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">Holding it up in front of him, I said, &ldquo;Oh, what is this Mr. Dawson?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">He shot to his feet. &ldquo;That is not mine!&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;It was in </span><em><span style="font-weight: 400;">your</span></em><span style="font-weight: 400;"> hygiene kit.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Detective! It was planted! You have to believe me&rdquo; he said, grabbing me by the arms, &ldquo;I would never poison anyone!&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;You better start talking Mr. Dawson. What exactly is going on here? Your room is a mess. You are bleeding from your ankle. And you have poison hidden in your bathroom!?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;I did not poison those people, Detective. I swear it! You must believe me. I, too, was sick after dinner. Why would I poison myself?&rdquo;</span><span style="font-weight: 400;"><br /></span><span style="font-weight: 400;"><br /></span><span style="font-weight: 400;">&ldquo;Maybe to deflect suspicion. You seem to have made a full recovery. Your dinner companions did not fare so well.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;I don&rsquo;t know what was poisoned, and, what&rsquo;s more, I had nothing to do with it!&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;You better start giving me some answers, Mr. Dawson.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Ok, this afternoon, after Wesley went missing, we formed a search party and scoured the house. I will admit to straying from the group&ndash; as well all did at times&ndash; to search Wesley&rsquo;s bedroom </span><strong>( 9 - P )</strong><span style="font-weight: 400;">.</span><span style="font-weight: 400;"> I was only trying to help a friend.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;I&rsquo;m sure. What did you find?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&nbsp;&ldquo;Nothing. I didn&rsquo;t get the chance. I poked my head in and, the moment I did, his bloody dog attacked me. The miserable mutt got me right on the ankle.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;He has a guard dog in his room?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Allow me to confirm that for you, Detective. A nasty one, too. But as I was scuffling with the dog, something very strange happened.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;What&rsquo;s that?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Someone burst from inside the room and shouldered me to the ground. From the ground, I kicked at the dog before slamming the door shut. I&rsquo;m lucky to be alive.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;You&rsquo;ve been lucky more than once today, Mr. Dawson. Who was this person that was in Mr. Range&rsquo;s room?&rdquo;</span><span style="font-weight: 400;"><br /></span><span style="font-weight: 400;"><br /></span><span style="font-weight: 400;">&ldquo;I don&rsquo;t know. The entire wing was dark. It was a man; I can say that.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Anything else?&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Nothing.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Stay here until I come fetch you.&rdquo;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&ldquo;Understood, Detective.&rdquo;</span></p>
+
+
+
+      <!-- </div>
+      <div class="bottom-image">
+        <img src="assets/IntroNote.jpg" alt="Evidence image">
+      </div> -->
+    </div>
+  </div>
+
+  <script>
+    const pages = [
+      { type: 'link', filename: 'notes.html', title: 'Notes', counted: false},
+      { type: 'link', filename: 'rules.html', title: 'Rules', counted: false},
+      { type: 'link', filename: 'intro.html', title: 'Introduction', counted: false},
+      { type: 'category', title: 'People' },
+      { type: 'link', filename: 'fredwells.html', title: 'Fred Wells' },
+      { type: 'link', filename: 'angiewells.html', title: 'Angie Wells' },
+      { type: 'link', filename: 'daledawson.html', title: 'Dale Dawson' },
+      { type: 'link', filename: 'allenflanders.html', title: 'Allen Flanders' },
+      { type: 'link', filename: 'marlabarton.html', title: 'Marla Barton' },
+      { type: 'link', filename: 'missflora.html', title: 'Miss Flora - Housekeeper' },
+      { type: 'link', filename: 'mrslawrence.html', title: 'Mrs. Lawrence - Cook' },
+      { type: 'link', filename: 'thomasgrady.html', title: 'Thomas Grady - Butler' },
+      { type: 'category', title: 'First Floor' },
+      { type: 'link', filename: 'mainentry.html', title: 'Main Entry' },
+      { type: 'link', filename: 'billiardroom.html', title: 'Billiard Room'},
+      { type: 'link', filename: 'kitchen.html', title: 'Kitchen', counted: false },
+      { type: 'link', filename: 'gardensuite.html', title: 'Garden Suite' },
+      { type: 'link', filename: 'thegarden.html', title: 'The Garden' },
+      { type: 'link', filename: '12c.html', title: '12 - C' },
+      { type: 'link', filename: '9a.html', title: '9 - A' },
+      { type: 'link', filename: '3p.html', title: '3 - P', counted: false },
+      { type: 'link', filename: '4p.html', title: '4 - P' },
+      { type: 'category', title: 'Second Floor' },
+      { type: 'link', filename: 'birdroom.html', title: 'Bird Room' },
+      { type: 'link', filename: 'warroom.html', title: 'War Room' },
+      { type: 'link', filename: 'ivorysuite.html', title: 'Ivory Suite' },
+      { type: 'link', filename: '9p.html', title: '9 - P' },
+      { type: 'link', filename: '7p.html', title: '7 - P' },
+      { type: 'link', filename: '4a.html', title: '4 - A' },
+      { type: 'link', filename: '10b.html', title: '10 - B' },
+      { type: 'link', filename: '11a.html', title: '11 - A' },
+      { type: 'category', title: 'Items' },
+      { type: 'link', filename: 'pre1.html', title: 'PrE - 1', counted: false },
+      { type: 'link', filename: 'exam.html', title: 'Exam', special: true, counted: false },
+      { type: 'link', filename: 'whodunit.html', title: 'Whodunit', special1: true, counted: false },
+    ];
+
+    const linkList = document.getElementById("linkList");
+    const counter = document.getElementById("counter");
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebar = document.getElementById("sidebar");
+    
+    // Debug elements
+    const debugVisited = document.getElementById("debugVisited");
+    const debugCounted = document.getElementById("debugCounted");
+    const debugRemaining = document.getElementById("debugRemaining");
+
+    // Initialize visited pages from localStorage - ensure it's always an array
+    let visited = new Set();
+    try {
+      const stored = localStorage.getItem("visitedPages");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          visited = new Set(parsed);
+        }
+      }
+    } catch (e) {
+      console.error("Error loading visited pages:", e);
+      localStorage.removeItem("visitedPages"); // Clear corrupted data
+    }
+
+    function updateCounter() {
+      // Count only pages that should be counted towards the hour limit
+      const countedVisitedPages = [...visited].filter(filename => {
+        const page = pages.find(p => p.filename === filename);
+        return page && page.counted !== false;
+      });
+      
+      const visitedCount = countedVisitedPages.length;
+      const remainingHours = Math.max(0, 11 - visitedCount);
+      
+      // Update counter display
+      counter.textContent = remainingHours;
+      
+      // Update debug info
+      // debugVisited.textContent = visited.size;
+      // debugCounted.textContent = visitedCount;
+      // debugRemaining.textContent = remainingHours;
+      
+      // Visual warning when getting low
+      const counterElement = counter.parentElement;
+      if (remainingHours <= 3) {
+        counterElement.style.backgroundColor = '#ff0000';
+      } else if (remainingHours <= 6) {
+        counterElement.style.backgroundColor = '#ff4500';
+      } else {
+        counterElement.style.backgroundColor = '#8B0000';
+      }
+      
+      console.log(`Counter updated: ${visitedCount} counted visits, ${remainingHours} hours remaining`);
+    }
+
+    function saveVisitedPages() {
+      try {
+        localStorage.setItem("visitedPages", JSON.stringify([...visited]));
+      } catch (e) {
+        console.error("Error saving visited pages:", e);
+      }
+    }
+
+    function renderLinks() {
+      linkList.innerHTML = ''; // Clear existing links
+      
+      pages.forEach(item => {
+        if (item.type === 'category') {
+          const div = document.createElement("div");
+          div.className = 'category';
+          div.textContent = item.title;
+          linkList.appendChild(div);
+        } else if (item.type === 'link') {
+          const a = document.createElement("a");
+          a.href = item.filename;
+          a.textContent = item.title;
+
+          // Apply styles based on visited status and special properties
+          if (visited.has(item.filename)) {
+            a.classList.add("visited");
+          }
+          if (item.special) {
+            a.classList.add("special");
+          }
+          if (item.special1) {
+            a.classList.add("special1");
+          }
+
+          // Handle click events
+          a.onclick = (e) => {
+            console.log(`Clicked: ${item.filename}, was visited: ${visited.has(item.filename)}, counted: ${item.counted !== false}`);
+            
+            // Only add to visited if not already visited
+            if (!visited.has(item.filename)) {
+              visited.add(item.filename);
+              saveVisitedPages();
+              updateCounter();
+              console.log(`Added ${item.filename} to visited pages`);
+            } else {
+              console.log(`${item.filename} already visited`);
+            }
+            
+            // Close sidebar on mobile after clicking
+            if (window.innerWidth <= 768) {
+              sidebar.classList.remove('open');
+            }
+            
+            // Allow normal navigation to proceed
+          };
+
+          linkList.appendChild(a);
+        }
+      });
+    }
+
+    // Initialize everything
+    updateCounter();
+    renderLinks();
+
+    // Mobile menu toggle
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && 
+          !sidebar.contains(e.target) && 
+          !menuToggle.contains(e.target) && 
+          sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+
+    // Handle resize events
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        sidebar.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>

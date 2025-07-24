@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Case Files</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, serif;
+      background-image: url('assets/rules.jpg'); /* Replace with your image path */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      color: white;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+    }
+
+    .case-container {
+    display: grid;
+     grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    }
+
+@media (max-width: 900px) {
+  .case-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .case-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+    .case-box {
+      background-color: rgba(0, 0, 0, 0.6);
+      border: 1px solid #ccc;
+      padding: 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+
+    .case-box:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: scale(1.03);
+    }
+  </style>
+</head>
+<body>
+  <h1>Case Files</h1>
+ <div class="case-container">
+  <div class="case-box">
+    <a href="rules.html" style="text-decoration: none; color: inherit; display: block;">
+      Case 1: Where's Wesley <br><br>
+      Hours: 11 <br>
+      <p>
+        Difficulty:
+        <span style="color: gold; font-size: 18px;">★★★★☆</span>
+      </p>
+    </a>
+  </div>
+
+  <div class="case-box">Case 2: Whispering Walls</div>
+  <div class="case-box">Case 3: The Candlelight Intrigue</div>
+  <div class="case-box">Case 4: The Candlelight Intrigue</div>
+  <div class="case-box">Case 5: The Candlelight Intrigue</div>
+</div> <!-- this closes .case-container -->
+</body>
+</html>
