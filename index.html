@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Case Files</title>
+  <title>With the Candlestick Mysteries</title>
   <style>
     body {
       margin: 0;
       font-family: Georgia, serif;
-      background-image: url('assets/rules.jpg'); /* Replace with your image path */
+      background-image: url('assets/rules.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       min-height: 100vh;
       color: white;
+      text-shadow: black;
       padding: 2rem;
     }
 
@@ -24,56 +25,93 @@
     }
 
     .case-container {
-    display: grid;
-     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3.5rem;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
     }
 
-@media (max-width: 900px) {
-  .case-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+    /* 2 columns for medium screens */
+    @media (max-width: 750px) {
+      .case-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
 
-@media (max-width: 600px) {
-  .case-container {
-    grid-template-columns: 1fr;
-  }
-}
+    /* 1 column for small screens */
+    @media (max-width: 480px) {
+      .case-container {
+        grid-template-columns: 1fr;
+      }
+    }
 
     .case-box {
-      background-color: rgba(0, 0, 0, 0.6);
-      border: 1px solid #ccc;
-      padding: 1.2rem;
-      border-radius: 8px;
+      padding: 0;
+      margin: 0;
+      border: none;
+      border-radius: 0;
+      background: none;
       cursor: pointer;
-      transition: transform 0.2s, background-color 0.2s;
+      transition: transform 0.2s;
     }
 
     .case-box:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-      transform: scale(1.03);
+      transform: scale(1.06);
+    }
+
+    .case-box a {
+      display: block;
+      text-decoration: none;
+    }
+
+    .case-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
   <h1>Case Files</h1>
- <div class="case-container">
-  <div class="case-box">
-    <a href="rules.html" style="text-decoration: none; color: inherit; display: block;">
-      Case 1: Where's Wesley <br><br>
-      Hours: 11 <br>
-      <p>
-        Difficulty:
-        <span style="color: gold; font-size: 18px;">★★★★☆</span>
-      </p>
-    </a>
-  </div>
+  <div class="case-container">
+    <div class="case-box">
+      <a href="rules.html">
+        <img src="assets/Folder-Where'sWesley.png" alt="Case 1: Where's Wesley" class="case-image">
+      </a>
+    </div>
 
-  <div class="case-box">Case 2: Whispering Walls</div>
-  <div class="case-box">Case 3: The Candlelight Intrigue</div>
-  <div class="case-box">Case 4: The Candlelight Intrigue</div>
-  <div class="case-box">Case 5: The Candlelight Intrigue</div>
-</div> <!-- this closes .case-container -->
+    <div class="case-box">
+      <!-- <a href="case2.html"> -->
+        <img src="assets/Folder-Blank.png" alt="Case 2: Whispering Walls" class="case-image">
+      </a>
+    </div>
+
+    <div class="case-box">
+      <!-- <a href="case3.html"> -->
+        <img src="assets/Folder-Blank.png" alt="Case 3: Candlelight Intrigue" class="case-image">
+      </a>
+    </div>
+
+    <div class="case-box">
+      <!-- <a href="case4.html"> -->
+        <img src="assets/Folder-Blank.png" alt="Case 4: Mystery Case" class="case-image">
+      </a>
+    </div>
+
+    <div class="case-box">
+      <!-- <a href="case5.html"> -->
+        <img src="assets/Folder-Blank.png" alt="Case 5: Another Mystery" class="case-image">
+      </a>
+    </div>
+
+    <div class="case-box">
+      <!-- <a href="case6.html"> -->
+        <img src="assets/Folder-Blank.png" alt="Case 6: Final Case" class="case-image">
+      </a>
+    </div>
+  </div>
 </body>
 </html>
