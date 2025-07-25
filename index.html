@@ -1,77 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-65QXKQK4RX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <title>Interactive Mystery Game | With the Candlestick Mysteries</title>
+  <meta name="description" content="Solve interactive mystery cases in 'With the Candlestick Mysteries' – a choose-your-own-adventure game filled with clues, intrigue, and secrets." />
 
-  gtag('config', 'G-65QXKQK4RX');
-</script>
+  <!-- Open Graph / Facebook -->
+  <meta property="og:title" content="With the Candlestick Mysteries" />
+  <meta property="og:description" content="Play a mystery game. Solve cases. Interview suspects. Can you uncover the truth?" />
+  <meta property="og:image" content="https://withthecandlestickmysteries.com/assets/preview.jpg" />
+  <meta property="og:url" content="https://withthecandlestickmysteries.com/" />
+  <meta property="og:type" content="website" />
   
-  
-  
-  <title>With the Candlestick Mysteries</title>
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Preload background -->
+  <link rel="preload" as="image" href="assets/rules.jpg" />
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-65QXKQK4RX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-65QXKQK4RX');
+  </script>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "With the Candlestick Mysteries",
+    "url": "https://withthecandlestickmysteries.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://withthecandlestickmysteries.com/?s={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: Georgia, serif;
+      font-family: 'Inter', sans-serif;
       background-image: url('assets/rules.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      min-height: 100vh;
       color: white;
-      text-shadow: black;
-      padding: 2rem;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.65);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: white;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      color: #f0f0f0;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #ffc107;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
+        background: rgba(0, 0, 0, 0.85);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: none;
+        padding: 1rem;
+      }
+
+      nav.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+        cursor: pointer;
+        color: white;
+        font-size: 1.4rem;
+      }
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      padding: 3rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
       text-align: center;
-      margin-bottom: 2rem;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+      margin-bottom: 1rem;
+      color: #fff;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    }
+
+    p.intro {
+      text-align: center;
+      font-size: 1.15rem;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      line-height: 1.6;
+      color: #e0e0e0;
     }
 
     .case-container {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3.5rem;
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    /* 2 columns for medium screens */
-    @media (max-width: 750px) {
-      .case-container {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    /* 1 column for small screens */
-    @media (max-width: 480px) {
-      .case-container {
-        grid-template-columns: 1fr;
-      }
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2.5rem;
+      padding: 0 1rem;
     }
 
     .case-box {
-      padding: 0;
-      margin: 0;
-      border: none;
-      border-radius: 0;
-      background: none;
-      cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      border-radius: 12px;
+      overflow: hidden;
     }
 
     .case-box:hover {
-      transform: scale(1.06);
+      transform: scale(1.04);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
 
     .case-box a {
@@ -81,50 +187,97 @@
 
     .case-image {
       width: 100%;
-      height: auto;
       display: block;
-      border-radius: 8px;
+      border-radius: 12px;
+    }
+
+    section.seo-text {
+      margin-top: 4rem;
+      background-color: rgba(0, 0, 0, 0.45);
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #e8e8e8;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      p.intro {
+        font-size: 1rem;
+      }
+
+      section.seo-text {
+        font-size: 1rem;
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Case Files</h1>
-  <div class="case-container">
-    <div class="case-box">
-      <a href="rules.html">
-        <img src="assets/Folder-Where'sWesley.png" alt="Case 1: Where's Wesley" class="case-image">
-      </a>
-    </div>
 
-    <div class="case-box">
-      <!-- <a href="case2.html"> -->
-        <img src="assets/Folder-Blank.png" alt="Case 2: Whispering Walls" class="case-image">
-      </a>
-    </div>
+  <!-- Header -->
+  <header>
+    <a class="logo" href="index.html"> WithTheCandlestick Mysteries - A Literary Investigation Game </a>
+    <div class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('active')">☰</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="rules.html">Newest Case</a>
+      <!-- <a href="#">Coming Soon</a> -->
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
 
-    <div class="case-box">
-      <!-- <a href="case3.html"> -->
-        <img src="assets/Folder-Blank.png" alt="Case 3: Candlelight Intrigue" class="case-image">
-      </a>
-    </div>
+  <!-- Main Content -->
+  <main>
+    <h1>Case Files</h1>
+    <p class="intro">
+      Select a case to begin your investigation. Gather evidence and traverse the crime scene according to your own hunch! You decide which suspects to interview and which rooms to search in this literary detective game, perfect for solo or group play alike!
+    </p>
 
-    <div class="case-box">
-      <!-- <a href="case4.html"> -->
-        <img src="assets/Folder-Blank.png" alt="Case 4: Mystery Case" class="case-image">
-      </a>
-    </div>
+    <section class="case-container">
+      <div class="case-box">
+        <a href="rules.html" aria-label="Open Case 1: Where's Wesley">
+          <img loading="lazy" src="assets/Folder-Where'sWesley.png" alt="Case 1: Where's Wesley" class="case-image">
+        </a>
+      </div>
+      <div class="case-box">
+        <a href="#" aria-label="Case 2: Whispering Walls (Coming Soon)">
+          <img loading="lazy" src="assets/Folder-Blank.png" alt="Case 2: Whispering Walls" class="case-image">
+        </a>
+      </div>
+      <div class="case-box">
+        <a href="#" aria-label="Case 3: Candlelight Intrigue (Coming Soon)">
+          <img loading="lazy" src="assets/Folder-Blank.png" alt="Case 3: Candlelight Intrigue" class="case-image">
+        </a>
+      </div>
+      <div class="case-box">
+        <a href="#" aria-label="Case 4: Mystery Case (Coming Soon)">
+          <img loading="lazy" src="assets/Folder-Blank.png" alt="Case 4: Mystery Case" class="case-image">
+        </a>
+      </div>
+      <div class="case-box">
+        <a href="#" aria-label="Case 5: Another Mystery (Coming Soon)">
+          <img loading="lazy" src="assets/Folder-Blank.png" alt="Case 5: Another Mystery" class="case-image">
+        </a>
+      </div>
+      <div class="case-box">
+        <a href="#" aria-label="Case 6: Final Case (Coming Soon)">
+          <img loading="lazy" src="assets/Folder-Blank.png" alt="Case 6: Final Case" class="case-image">
+        </a>
+      </div>
+    </section>
 
-    <div class="case-box">
-      <!-- <a href="case5.html"> -->
-        <img src="assets/Folder-Blank.png" alt="Case 5: Another Mystery" class="case-image">
-      </a>
-    </div>
+    <section class="seo-text">
+      <p>
+        Welcome to <strong>With the Candlestick Mysteries</strong> – a literary detective adventure game. Follow leads, uncover clues, and use your wits to solve each case before the culprit can escape! Perfect for fans of classic whodunits, mystery novels, and interactive storytelling.
+      </p>
+    </section>
+  </main>
 
-    <div class="case-box">
-      <!-- <a href="case6.html"> -->
-        <img src="assets/Folder-Blank.png" alt="Case 6: Final Case" class="case-image">
-      </a>
-    </div>
-  </div>
 </body>
 </html>
